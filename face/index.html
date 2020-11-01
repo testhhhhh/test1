@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="face" id="face">
+            <div class="designer" id="designer">
+                <a href="#">
+                    <h1>designer</h1>
+                    <p>UI/UX Designer with a passion for designing beautiful and functional user experiences.</p>
+                </a>
+            </div>
+            <div class="coder" id="coder">
+                <a href="#">
+                    <h1>&lt;coder&gt;</h1>
+                    <p>Front End Developer who focuses on writing clean, elegant and efficient code.</p>
+                </a>
+            </div>
+            <div class="designer-img" id="designer-img"></div>
+            <div class="coder-img" id="coder-img"></div>
+            <div class="designer-bg" id="designer-bg"></div>
+            <div class="coder-bg" id="coder-bg"></div>
+        </div>
+    </div>
+    <script>
+
+        //找到控制的元素
+        //获取要发生变化的相关页面元素
+        let designer=document.getElementById('designer');
+        let coder=document.getElementById('coder');
+        let designerImg=document.getElementById('designer-img');
+        let coderImg=document.getElementById('coder-img');
+        let designerBg=document.getElementById('designer-bg');
+        let coderBg=document.getElementById('coder-bg');
+
+        //获取窗口宽度
+        let window_width=document.documentElement.clientWidth;
+
+        //获取窗口中心位置
+        let center=window_width / 2;
+        
+        //获取container元素
+        let container=document.querySelector('.container');
+
+        //定义当前点
+        let currentX={
+            'designer_img':100,
+            'coder_img':100,
+            'designer_bg':100,
+            'coder_bg':100
+        };
+        //定义目标点
+        let targetX={
+            'designer_img':100,
+            'coder_img':100,
+            'designer_bg':100,
+            'coder_bg':100
+        }
+             //延迟绑定监听
+        let delay_listen = ()=>{
+            container.addEventListener('mouseover',(e)=>{
+                let x=e.clientX;
+                //新坐标公式
+                //左侧图像为：100-((当前坐标-中心点)/(中心点/70))
+                //右侧图像为：100+((当前坐标-中心点)/(中心点/70))
+                let new_designer_img_x=100-((x-center)/(center/70));
+                let new_coder_img_x=100+((x-center)/(center/70));
+
+                let new_designer_bg_x=100-((x-center)/(center/50));
+                let new_coder_bg_x=100+((x-center)/(center/50));
+
+                targetX.designer_img=new_designer_img_x;
+                targetX.coder_img=new_coder_img_x;
+
+                targetX.designer_bg=new_designer_bg_x;
+                targetX.coder_bg=new_coder_bg_x;
+                
+                // 启动动画
+                action();
+            });
+            container.addEventListener('mousemove',(e)=>{
+                let x=e.clientX;
+                //新坐标公式
+                //左侧图像为：100-((当前坐标-中心点)/(中心点/70))
+                //右侧图像为：100+((当前坐标-中心点)/(中心点/70))
+                let new_designer_img_x=100-((x-center)/(center/70));
+                let new_coder_img_x=100+((x-center)/(center/70));
+
+                let new_designer_bg_x=100-((x-center)/(center/50));
+                let new_coder_bg_x=100+((x-center)/(center/50));
+
+                targetX.designer_img=new_designer_img_x;
+                targetX.coder_img=new_coder_img_x;
+
+                targetX.designer_bg=new_designer_bg_x;
+                targetX.coder_bg=new_coder_bg_x;
+                
+                // 启动动画
+                action();
+            });
+            container.addEventListener('mouseout',(e)=>{
+                let x=e.clientX;
+                targetX.designer_img=100;
+                targetX.coder_img=100;
+
+                targetX.designer_bg=100;
+                targetX.coder_bg=100;
+
+                 // 启动动画
+                 action();
+            });
+        }
+        
+        let timer=null;
+        let action=()=>{
+            if(timer){
+                return;
+            }
+           timer= setInterval(() => {
+               /*designer_img 位移*/
+                if(currentX.designer_img<targetX.designer_img){
+                    currentX.designer_img+=1;
+                    if(currentX.designer_img>targetX.designer_img){
+                        currentX.designer_img=targetX.designer_img;
+                    }
+                    designerImg.style='left:'+ currentX.designer_img+"px";
+               }
+                if(currentX.designer_img>targetX.designer_img){
+                    currentX.designer_img-=1;
+                    if(currentX.designer_img<targetX.designer_img){
+                        currentX.designer_img=targetX.designer_img;
+                    }
+                    designerImg.style='left:'+ currentX.designer_img+"px";
+               }
+
+                /*coder_img 位移*/
+                if(currentX.coder_img<targetX.coder_img){
+                    currentX.coder_img+=1;
+                    if(currentX.coder_img>targetX.coder_img){
+                        currentX.coder_img=targetX.coder_img;
+                    }
+                    coderImg.style='right:'+ currentX.coder_img+"px";
+               }
+                if(currentX.coder_img>targetX.coder_img){
+                    currentX.coder_img-=1;
+                    if(currentX.coder_img<targetX.coder_img){
+                        currentX.coder_img=targetX.coder_img;
+                    }
+                    coderImg.style='right:'+ currentX.coder_img+"px";
+               }
+
+                /*designer_bg 位移*/
+                if(currentX.designer_bg<targetX.designer_bg){
+                    currentX.designer_bg+=1*(50/70);
+                    if(currentX.designer_bg>targetX.designer_bg){
+                        currentX.designer_bg=targetX.designer_bg;
+                    }
+                    designerBg.style='left:'+ currentX.designer_bg+"px";
+               }
+                if(currentX.designer_bg>targetX.designer_bg){
+                    currentX.designer_bg-=1*(50/70);
+                    if(currentX.designer_bg<targetX.designer_bg){
+                        currentX.designer_bg=targetX.designer_bg;
+                    }
+                    designerBg.style='left:'+ currentX.designer_bg+"px";
+               }
+
+                /*coder_bg 位移*/
+                if(currentX.coder_bg<targetX.coder_bg){
+                    currentX.coder_bg+=1*(50/70);
+                    if(currentX.coder_bg>targetX.coder_bg){
+                        currentX.coder_bg=targetX.coder_bg;
+                    }
+                    coderBg.style='right:'+ currentX.coder_bg+"px";
+               }
+                if(currentX.coder_bg>targetX.coder_bg){
+                    currentX.coder_bg-=1*(50/70);
+                    if(currentX.coder_bg<targetX.coder_bg){
+                        currentX.coder_bg=targetX.coder_bg;
+                    }
+                    coderBg.style='right:'+ currentX.coder_bg+"px";
+               }
+
+               // 通过位移距离，逆运算鼠标坐标点
+               let currentMouse=(100-currentX.designer_bg)*(center/50)+center;
+               //  鼠标距离中心点的偏移量
+               let mouseOffset=currentMouse-center;
+
+               //鼠标在偏移量左侧
+               if(mouseOffset<0){
+                    designerBg.style.opacity=1;
+                    designer.style.opacity=1;
+               }
+               if(mouseOffset>=0&&mouseOffset<=385){
+                    designerBg.style.opacity=1-mouseOffset/385;
+                    designer.style.opacity=1-mouseOffset/385;
+               }
+                if(mouseOffset>385){
+                    designerBg.style.opacity=0;
+                    designer.style.opacity=0;
+               }
+               //鼠标在偏移量右侧
+               if(mouseOffset>0){
+                    coderBg.style.opacity=1;
+                    coder.style.opacity=1;
+               }
+               if(mouseOffset<=0&&mouseOffset>=-385){
+                    coderBg.style.opacity=1-mouseOffset/-385;
+                    coder.style.opacity=1-mouseOffset/-385;
+               }
+                if(mouseOffset<-385){
+                    coderBg.style.opacity=0;
+                    coder.style.opacity=0;
+               }
+
+               /*designer_img宽度变化
+                 coder—_img宽度变化*/
+                if(mouseOffset<=-385){
+                    designerImg.style.width="840px";
+                    coderImg.style.width="0px";
+                }
+                if(mouseOffset>=-385&&mouseOffset<=385){
+                    designerImg.style.width=(1-(mouseOffset+385)/770)*840+1+"px";
+                    
+                    coderImg.style.width=((mouseOffset+385)/770)*840+1+"px";
+                }
+                if(mouseOffset>=385){
+                    designerImg.style.width="0px";
+                    coderImg.style.width="840px";
+                }
+
+                //定时器状态清理
+                if(
+                    currentX.designer_img==targetX.designer_img
+                    &&currentX.coder_img==targetX.coder_img
+                    &&currentX.designer_bg==targetX.designer_bg
+                    &&currentX.coder_bg==targetX.coder_bg
+                ){
+                    clearInterval(timer);
+                    timer=null;
+                }
+            }, 1);
+        }
+        window.onload=(e)=>{
+            //延迟绑定监听
+            setTimeout(()=>{
+                delay_listen();
+            }),1500
+        }
+
+    </script>
+</body>
+</html>

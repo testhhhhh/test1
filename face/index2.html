@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>编译中梦见未来</title>
+    <link rel="stylesheet" href="style2.css">
+</head>
+
+<body>
+    <div class="channel">
+        bilibili 编译中梦见未来
+    </div>
+    <div class="container">
+        <div id="face" class="face">
+            <div id="designer" class="designer">
+                <div>
+                    <a href="#">
+                        <h1>designer</h1>
+                        <p>UI/UX Designer with a passion for designing beautiful and functional user experiences.</p>
+                    </a>
+                </div>
+            </div>
+            <div id="coder" class="coder">
+                <div>
+                    <a href="#">
+                        <h1>&lt;coder&gt;</h1>
+                        <p>Front End Developer who focuses on writing clean, elegant and efficient code.</p>
+                    </a>
+                </div>
+            </div>
+            <div id="designer-img" class="designer-img"></div>
+            <div id="coder-img" class="coder-img"></div>
+            <div id="designer-bg" class="designer-bg"></div>
+            <div id="coder-bg" class="coder-bg"></div>
+        </div>
+    </div>
+
+    <script>
+
+        // 计时器
+        let timer = null;
+
+        // 获取要发生变化的相关页面元素
+        let designer = document.getElementById('designer');
+        let coder = document.getElementById('coder');
+        let designerImg = document.getElementById('designer-img');
+        let coderImg = document.getElementById('coder-img');
+        let designerBg = document.getElementById('designer-bg');
+        let coderBg = document.getElementById('coder-bg');
+
+        // 定义当前点
+        let currentX = {
+            'designer_img': 100,
+            'coder_img': 100,
+            'designer_bg': 100,
+            'coder_bg': 100
+        };
+        // 定义目标点。
+        let targetX = {
+            'designer_img': 100,
+            'coder_img': 100,
+            'designer_bg': 100,
+            'coder_bg': 100
+        };
+
+        // 获取窗口宽度
+        let window_width = document.documentElement.clientWidth;
+        // 获取窗口中心位置
+        let center = window_width / 2;
+
+        // 获取container元素
+        let container = document.querySelector('.container');
+
+        // 延迟事件监听(等待初始化效果完成)
+        let delay_listen = () => {
+            // 增加container鼠标进入监听事件
+            container.addEventListener('mouseover', (e) => {
+                // console.log(e);
+                // 仅处理鼠标从container外部父元素移入鼠标时
+                //relatedtarget:返回指针刚刚离开的元素（不支持 IE）。 
+                /*compareDocumentPosition() 方法比较两个节点，并返回描述它们在文档中位置的整数。
+
+                返回值可能是：
+                1：没有关系，两个节点不属于同一个文档。
+                2：第一节点（P1）位于第二个节点后（P2）。
+                4：第一节点（P1）定位在第二节点（P2）前。
+                8：第一节点（P1）位于第二节点内（P2）。
+                16：第二节点（P2）位于第一节点内（P1）。
+                32：没有关系，或是两个节点是同一元素的两个属性。
+                注释：返回值可以是值的组合。例如，返回 20 意味着在 p2 在 p1 内部（16），并且 p1 在 p2 之前（4）。*/
+                if (e.relatedTarget && container.compareDocumentPosition(e.relatedTarget) == 10) {
+                    // 获取x位置
+                    let x = e.clientX;
+                    // 获取与中心的距离偏移左侧为负值，右侧为正值
+                    let x_offset = x - center;
+                    // 提前预设，鼠标从中心点移动到最左侧或者最右侧时，
+                    // 图片 designer-img coder-img 向左或者向右移动70px，初始为100px，移动后为30px
+                    // 背景图 designer-bg coder-bg 向左或者向右移动50px，初始为100px，移动后为40px
+                    // 根据当前中心距离偏移计算图片目标位置X坐标
+                    // console.log(x_offset / (center / 70));
+                    let new_designer_img_x = 100 - (x_offset / (center / 70));
+                    let new_coder_img_x = 100 + (x_offset / (center / 70));
+                    // console.log(x_offset / (center / 50));
+                    let new_designer_bg_x = 100 - (x_offset / (center / 50));
+                    let new_coder_bg_x = 100 + (x_offset / (center / 50));
+
+                    // 目标值赋值
+                    targetX.designer_img = new_designer_img_x;
+                    targetX.coder_img = new_coder_img_x;
+                    targetX.designer_bg = new_designer_bg_x;
+                    targetX.coder_bg = new_coder_bg_x;
+
+                    // 计时器未开启需要先开启
+                    if (!timer) { action(); }
+                }
+            });
+
+            // 增加container鼠标移动监听事件
+            container.addEventListener('mousemove', (e) => {
+                // 获取x位置
+                let x = e.clientX;
+                // 获取与中心的距离偏移左侧为负值，右侧为正值
+                let x_offset = x - center;
+                // 提前预设，鼠标从中心点移动到最左侧或者最右侧时，
+                // 图片 designer-img coder-img 向左或者向右移动70px，初始为100px，移动后为30px
+                // 背景图 designer-bg coder-bg 向左或者向右移动50px，初始为100px，移动后为40px
+                // 根据当前中心距离偏移计算图片目标位置X坐标
+                // console.log(x_offset / (center / 70));
+                let new_designer_img_x = 100 - (x_offset / (center / 70));
+                let new_coder_img_x = 100 + (x_offset / (center / 70));
+                // console.log(x_offset / (center / 50));
+                let new_designer_bg_x = 100 - (x_offset / (center / 50));
+                let new_coder_bg_x = 100 + (x_offset / (center / 50));
+
+                // 目标值赋值
+                targetX.designer_img = new_designer_img_x;
+                targetX.coder_img = new_coder_img_x;
+                targetX.designer_bg = new_designer_bg_x;
+                targetX.coder_bg = new_coder_bg_x;
+
+                // 计时器未开启需要先开启
+                if (!timer) { action(); }
+
+            });
+
+            // 增加container鼠标移出监听事件
+            container.addEventListener('mouseout', (e) => {
+                // 仅处理鼠标从container移出鼠标到外部父元素时
+                if (e.relatedTarget && container.compareDocumentPosition(e.relatedTarget) == 10) {
+                    // 目标值赋值
+                    targetX.designer_img = 100;
+                    targetX.coder_img = 100;
+                    targetX.designer_bg = 100;
+                    targetX.coder_bg = 100;
+
+                    // 计时器未开启需要先开启
+                    if (!timer) { action(); }
+                }
+            });
+        }
+
+        // 变动方法
+        let action = (e) => {
+            // 创建计时器，1ms执行1次
+            timer = setInterval(() => {
+
+                /* ****************************
+                 * designer_img 位移
+                 * ****************************/
+
+                // 鼠标往左，图像向右移动
+                if (currentX.designer_img < targetX.designer_img) {
+                    currentX.designer_img += 1;
+                    // 超过目标值则等于目标值
+                    if (currentX.designer_img > targetX.designer_img) {
+                        currentX.designer_img = targetX.designer_img;
+                    }
+                    designerImg.style = "left:" + currentX.designer_img + "px ";
+                }
+                // 鼠标往右，图像向左移动
+                if (currentX.designer_img > targetX.designer_img) {
+                    currentX.designer_img -= 1;
+                    // 小于目标值则等于目标值
+                    if (currentX.designer_img < targetX.designer_img) {
+                        currentX.designer_img = targetX.designer_img;
+                    }
+                    designerImg.style = "left:" + currentX.designer_img + "px ";
+                }
+
+                /* ****************************
+                 * coder_img 位移
+                 * ****************************/
+
+                // 鼠标往左，图像向右移动
+                if (currentX.coder_img < targetX.coder_img) {
+                    currentX.coder_img += 1;
+                    // 超过目标值则等于目标值
+                    if (currentX.coder_img > targetX.coder_img) {
+                        currentX.coder_img = targetX.coder_img;
+                    }
+                    coderImg.style = "right:" + currentX.coder_img + "px ";
+                }
+                // 鼠标往右，图像向左移动
+                if (currentX.coder_img > targetX.coder_img) {
+                    currentX.coder_img -= 1;
+                    // 小于目标值则等于目标值
+                    if (currentX.coder_img < targetX.coder_img) {
+                        currentX.coder_img = targetX.coder_img;
+                    }
+                    coderImg.style = "right:" + currentX.coder_img + "px ";
+                }
+
+
+                /* ****************************
+                 * designer_bg 位移
+                 * ****************************/
+
+                // 鼠标往左，图像向右移动
+                if (currentX.designer_bg < targetX.designer_bg) {
+                    // 背景图位移幅度要小一些
+                    currentX.designer_bg += 1 * (50 / 70);
+                    // 超过目标值则等于目标值
+                    if (currentX.designer_bg > targetX.designer_bg) {
+                        currentX.designer_bg = targetX.designer_bg;
+                    }
+
+                    designerBg.style = "left:" + currentX.designer_bg + "px ";
+                }
+                // 鼠标往右，图像向左移动
+                if (currentX.designer_bg > targetX.designer_bg) {
+                    // 背景图位移幅度要小一些
+                    currentX.designer_bg -= 1 * (50 / 70);
+                    // 小于目标值则等于目标值
+                    if (currentX.designer_bg < targetX.designer_bg) {
+                        currentX.designer_bg = targetX.designer_bg;
+                    }
+
+                    designerBg.style = "left:" + currentX.designer_bg + "px ";
+                }
+
+
+
+                /* ****************************
+                 * coder_bg 位移
+                 * ****************************/
+
+                // 鼠标往左，图像向右移动
+                if (currentX.coder_bg < targetX.coder_bg) {
+                    // 背景图位移幅度要小一些
+                    currentX.coder_bg += 1 * (50 / 70);
+                    // 超过目标值则等于目标值
+                    if (currentX.coder_bg > targetX.coder_bg) {
+                        currentX.coder_bg = targetX.coder_bg;
+                    }
+                    coderBg.style = "right:" + currentX.coder_bg + "px ";
+                }
+                // 鼠标往右，图像向左移动
+                if (currentX.coder_bg > targetX.coder_bg) {
+                    // 背景图位移幅度要小一些
+                    currentX.coder_bg -= 1 * (50 / 70);
+                    // 小于目标值则等于目标值
+                    if (currentX.coder_bg < targetX.coder_bg) {
+                        currentX.coder_bg = targetX.coder_bg;
+                    }
+                    coderBg.style = "right:" + currentX.coder_bg + "px ";
+                }
+
+                /* ****************************
+                 * designer_bg 、 coder_bg 清晰度
+                 * ****************************/
+
+                // 计算鼠标位置（通过currentX.designer_bg位移进行逆运算）
+                let current_mouse = (100 - currentX.designer_bg) * (center / 50) + center;
+                // 清晰度鼠标偏移宽度 420+100-(270/2) = 385
+                // 默认或鼠标位于中间位置center时designer-bg与coder-bg清晰度为1
+                // 鼠标由中心点，右偏移至385，designer-bg清晰度为0，向左移动到偏移0时，清晰度为1
+                // 继续向左移动保持为1
+                // console.log(current_mouse - center);
+
+                if (current_mouse - center < 0) {
+                    designerBg.style.opacity = "1";
+                    designer.style.opacity = "1";
+                }
+                if (current_mouse - center >= 0 && current_mouse - center <= 385) {
+                    designerBg.style.opacity = 1 - (current_mouse - center) / 385;
+                    designer.style.opacity = 1 - (current_mouse - center) / 385;
+                }
+                if (current_mouse - center > 385) {
+                    designerBg.style.opacity = '0 ';
+                    designer.style.opacity = '0 ';
+                }
+
+                // 鼠标由中心点，左偏移至-385，coder-bg清晰度为0，向右移动到偏移0时，清晰度为1
+                // 继续向右移动保持为1
+                if (current_mouse - center > 0) {
+                    coderBg.style.opacity = "1";
+                    coder.style.opacity = "1";
+                    // console.log(1);
+                }
+                if (current_mouse - center <= 0 && current_mouse - center >= -385) {
+                    coderBg.style.opacity = 1 - (current_mouse - center) / -385;
+                    // coderBg.style.opacity = 1 - (Math.abs(current_mouse - center)) / 385;
+                    coder.style.opacity = 1 - (current_mouse - center) / -385;
+                    // coder.style.opacity = 1 - (Math.abs(current_mouse - center)) / 385;
+                    // console.log(2);
+                }
+                if (current_mouse - center < -385) {
+                    coderBg.style.opacity = '0';
+                    coder.style.opacity = '0';
+                    // console.log(3);
+                }
+
+                /* ****************************
+                 * designer_img 宽度变化
+                 * coder_img 宽度变化
+                 * ****************************/
+
+                // 计算鼠标位置（通过currentX.designer_bg位移进行逆运算）
+                current_mouse = (100 - currentX.designer_bg) * (center / 50) + center;
+                // 尺寸变化鼠标偏移宽度 420+100-(270/2) = 385
+                // 默认或鼠标位于中间位置center时designer-img与coder-img宽度为420+1（1像素防止计算错误导致空隙）
+                // 鼠标由中心点
+                // 向左至偏移-385px时宽度达到最大840px+1，向右至偏移385px宽度达到最小值0+1，中间是为默认的420+1
+                // console.log(current_mouse - center);
+                if (current_mouse - center <= -385) {
+                    designerImg.style.width = "840px";
+                }
+                if (current_mouse - center >= -385 && current_mouse - center <=385) {
+                    designerImg.style.width = ((1 - (current_mouse - center + 385) / 770) * 840 + 1) + 'px';
+                }
+                if (current_mouse - center >= 385) {
+                    designerImg.style.width = '0px';
+                }
+
+                if (current_mouse - center <= -385) {
+                    coderImg.style.width = "0px";
+                }
+                if (current_mouse - center >= -385 && current_mouse - center <= 385) {
+                    coderImg.style.width = (((current_mouse - center + 385) / 770) * 840 + 1) + 'px';
+                }
+                if (current_mouse - center >= 385) {
+                    coderImg.style.width = '840px';
+                }
+
+
+
+                /* ****************************
+                 * 抵达目标清理clearInterval
+                 * ****************************/
+
+                if (
+                    currentX.designer_img == targetX.designer_img
+                    && currentX.coder_img == targetX.coder_img
+                    && currentX.designer_bg == targetX.designer_bg
+                    && currentX.coder_bg == targetX.coder_bg
+                ) {
+                    // console.log(111);
+                    clearInterval(timer);
+                    timer = null;
+                }
+
+
+            }, 1);
+
+        };
+
+        // onload事件
+        window.onload = (e) => {
+            // 延迟监听，延迟1500ms等待初始化动画完成。
+            setTimeout(() => {
+                delay_listen();
+            }, 1500);
+        }
+
+    </script>
+</body>
+
+</html>

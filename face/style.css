@@ -1,0 +1,116 @@
+body{
+    background-color: darkslateblue;
+}
+.container{
+    width: 100vw;
+    height: 600px;
+    background-color: #fff;
+}
+.face{
+    width: 1040px;
+    height: 600px;
+    /* background-color: #33333350; */
+    margin: 0 auto;
+    position: relative;
+}
+.designer,
+.coder{
+    position: absolute;
+    width: 270px;
+    height: 200px;
+    top:180px;
+    /* background-color: darkturquoise; */
+    z-index: 11;
+    animation:init_text 2s ease 1;
+}
+.designer{
+    left: 0;
+}
+.coder{
+    right:0;
+}
+.designer a,
+.coder a{
+    text-decoration:none ;
+    color:#333;
+}
+.designer h1,
+.coder h1{
+    font-size: 50px;
+    text-align: center;
+    line-height: 80px;
+}
+.designer p,
+.coder p{
+    font-size: 20px;
+}
+.designer a:hover h1,
+.coder a:hover h1{
+    color: #b7525b;
+}
+.designer a:hover p,
+.coder a:hover p{
+    color: #c4656c;
+}
+.designer-img,
+.coder-img{
+    position: absolute;
+    width: 420px;
+    height: 600px;
+    background-image: url(./home.png);
+    z-index: 10;
+
+}
+.designer-img{
+    left:100px;
+    /* background-color: #3b1ea350; */
+    background-position: left -600px;
+    animation: init_designer 1s ease 1;
+
+}
+.coder-img{
+    right: 100px;
+    /* background-color: #c381c550; */
+    background-position: right 0;
+    animation: init_coder 1s ease 1;
+}
+.designer-bg,
+.coder-bg{
+    position: absolute;
+    width: 420px;
+    height: 300px;
+    bottom: 0;
+    background-image: url(./home.png);
+}
+.designer-bg{
+    left: 100px;
+    /* background-color: #1e79a350; */
+    background-position: left -1200px;
+    animation: init_designer 1s cubic-bezier(.25,.43,.61,1.28) 1;
+}
+.coder-bg{
+    right: 100px;
+    /* background-color: #81b0c550; */
+    background-position: right -1200px;
+    animation: init_coder 1s cubic-bezier(.25,.43,.61,1.28) 1;
+}
+@keyframes init_designer{
+    0%{
+        opacity: 0;
+        left:-210px;
+    }
+}
+@keyframes init_coder{
+    0%{
+        opacity: 0;
+        right:-210px;
+    }
+}
+@keyframes init_text{
+    0%{
+        opacity: 0;
+    }
+    50%{
+        opacity: 0;
+    }
+}
