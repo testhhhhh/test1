@@ -1,0 +1,219 @@
+package AdminView;
+
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.border.EmptyBorder;
+
+import Dao.AzminDao;
+import model.Azmin;
+import model.UserType;
+import util.StringUtil;
+
+public class Login extends JFrame {
+
+	private JPanel contentPane;
+	private JTextField userNametextField;
+	private JTextField passwordtextField;
+    private JComboBox userTypecomboBox;
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Login frame = new Login();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	//登录界面设计
+	public Login() {
+		setTitle("\u767B\u5F55");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 589, 407);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		
+		JLabel lblNewLabel = new JLabel("\u5C0F\u8BF4\u7F51\u7AD9\u7BA1\u7406\u7CFB\u7EDF\u767B\u5F55\u754C\u9762");
+		lblNewLabel.setIcon(new ImageIcon(Login.class.getResource("/images/3157c626dc7f131.jpg")));
+		lblNewLabel.setFont(new Font("微软雅黑", Font.BOLD, 20));
+		
+		JLabel lblNewLabel_1 = new JLabel("\u7528\u6237\u540D\uFF1A");
+		lblNewLabel_1.setFont(new Font("方正舒体", Font.BOLD, 22));
+		
+		JLabel lblNewLabel_2 = new JLabel("\u5BC6   \u7801\uFF1A");
+		lblNewLabel_2.setFont(new Font("方正舒体", Font.BOLD, 22));
+		
+		userNametextField = new JTextField();
+		userNametextField.setColumns(10);
+		
+		passwordtextField = new JTextField();
+		passwordtextField.setColumns(10);
+		
+		JLabel lblNewLabel_3 = new JLabel("\u7528\u6237\u7C7B\u578B\uFF1A");
+		lblNewLabel_3.setFont(new Font("方正舒体", Font.BOLD, 22));
+		
+		userTypecomboBox = new JComboBox();
+		userTypecomboBox.setModel(new DefaultComboBoxModel(new UserType[] {UserType.azmin, UserType.user}));
+		userTypecomboBox.setFont(new Font("微软雅黑", Font.PLAIN, 14));
+		
+		JButton LoginButton = new JButton("\u767B\u5F55");
+		LoginButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				loginyanzheng(e);
+			}
+		});
+		LoginButton.setFont(new Font("华文新魏", Font.PLAIN, 20));
+		
+		JButton ResignerButton = new JButton("\u6CE8\u518C");
+		ResignerButton.setFont(new Font("华文新魏", Font.PLAIN, 20));
+		
+		JButton resetButton = new JButton("\u91CD\u7F6E");
+		resetButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				restValue(e);
+			}
+		});
+		resetButton.setFont(new Font("华文新魏", Font.PLAIN, 20));
+		GroupLayout gl_contentPane = new GroupLayout(contentPane);
+		gl_contentPane.setHorizontalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(22)
+							.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 543, Short.MAX_VALUE))
+						.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+								.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+									.addGap(111)
+									.addComponent(lblNewLabel_3, GroupLayout.PREFERRED_SIZE, 126, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(userTypecomboBox, GroupLayout.PREFERRED_SIZE, 192, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addGap(133)
+									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+										.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 94, GroupLayout.PREFERRED_SIZE)
+										.addGroup(gl_contentPane.createSequentialGroup()
+											.addGap(6)
+											.addComponent(lblNewLabel_2)))
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+										.addComponent(passwordtextField, GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
+										.addComponent(userNametextField, GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE))))
+							.addGap(132)))
+					.addContainerGap())
+				.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+					.addContainerGap(75, Short.MAX_VALUE)
+					.addComponent(LoginButton, GroupLayout.PREFERRED_SIZE, 105, GroupLayout.PREFERRED_SIZE)
+					.addGap(72)
+					.addComponent(ResignerButton, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)
+					.addGap(72)
+					.addComponent(resetButton, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)
+					.addGap(57))
+		);
+		gl_contentPane.setVerticalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGap(29)
+					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
+					.addGap(30)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+						.addComponent(userNametextField, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(passwordtextField, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblNewLabel_2, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblNewLabel_3)
+						.addComponent(userTypecomboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(resetButton)
+						.addComponent(ResignerButton)
+						.addComponent(LoginButton))
+					.addGap(29))
+		);
+		contentPane.setLayout(gl_contentPane);
+	}
+
+	//登录验证
+	protected void loginyanzheng(ActionEvent e) {
+		// TODO Auto-generated method stub
+		String username=userNametextField.getText().toString();//获取输入的用户名字符串
+		String password=passwordtextField.getText().toString();//获取输入的密码字符串
+		UserType selecteditem=(UserType)userTypecomboBox.getSelectedItem();//判断使用对象
+		
+		//判断用户名是否为空
+		if("".equals(username)&&username!=null) {
+			if(StringUtil.isEmpty(username)){
+				//showConfirmDialog( int optionType, int messageType) 这个会显示是、否、取消的框
+				//调用一个由 optionType 参数确定其中选项数的对话框，messageType 参数确定要显示的图标。
+				//JOptionPane.showConfirmDialog(this, "用户名不能为空！");
+				//JOptionPane.showMessageDialog  这个会显示的是确定的框
+				JOptionPane.showMessageDialog(this,"用户名不能为空");
+				return;}
+			}
+		
+		//判断密码是否为空
+			if("".equals(password)||password==null) {
+				
+					JOptionPane.showMessageDialog(this,"密码不能为空");//弹出窗口提示
+					return;
+		}
+			Azmin azmin=null;
+			if("系统管理员".equals(selecteditem.getName())) {
+				//系统管理员登录
+				AzminDao azmindao=new AzminDao();
+				Azmin azminTap=new Azmin();
+				azminTap.setUsername(username);
+				azminTap.setPassword(password);
+				azmin=azmindao.Login(azminTap);
+				if(azmin==null) {
+					JOptionPane.showMessageDialog(this,"用户名或密码错误");//弹出窗口提示
+					return;
+				}
+//				this.dispose();
+//				JOptionPane.showMessageDialog(this, "欢迎"+selecteditem.getName()+azmin.getUsername()+"来到三味书屋");
+//				new MainView(selecteditem,azmin).setVisible(true);;
+				}
+			else if("用户".equals(selecteditem.getName())) {
+				//用户登录
+			}
+	}
+
+	//重置按钮的事件监听
+	protected void restValue(ActionEvent e) {
+		// TODO Auto-generated method stub
+		userNametextField.setText("");
+		passwordtextField.setText("");
+	userTypecomboBox.setSelectedIndex(0);
+		userNametextField.requestFocus();
+	}
+}
