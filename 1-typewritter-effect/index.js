@@ -60,5 +60,4 @@ function type(time) {
     }
   }
 }
-
 window.requestAnimationFrame(type);
