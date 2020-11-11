@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Scoped CSS Variables and JS</title>
+  <style>
+      :root{
+          --base:#ffc600;
+          --blur:10px;
+          --spacing:10px;
+      }
+      img{
+          background: var(--base);
+          padding:var(--spacing);
+          filter:blur(var(--blur));
+      }
+      .hl{
+          color:var(--base);
+      }
+
+    /*
+      misc styles, nothing to do with CSS variables
+    */
+
+    body {
+      text-align: center;
+    }
+
+    body {
+      background: #193549;
+      color: white;
+      font-family: 'helvetica neue', sans-serif;
+      font-weight: 100;
+      font-size: 50px;
+    }
+
+    .controls {
+      margin-bottom: 50px;
+    }
+
+    input {
+      width:100px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Update CSS Variables with <span class='hl'>JS</span></h2>
+
+  <div class="controls">
+    <label for="spacing">Spacing:</label>
+    <input type="range" name="spacing" min="10" max="200" value="10" data-sizing="px">
+
+    <label for="blur">Blur:</label>
+    <input type="range" name="blur" min="0" max="25" value="10" data-sizing="px">
+
+    <label for="base">Base Color</label>
+    <input type="color" name="base" value="#ffc600">
+  </div>
+
+  <img src="https://source.unsplash.com/7bwQXzbF6KE/800x500">
+
+
+
+  <script>
+    //   const inputs=document.querySelectorAll('.controls input');
+
+    //   function handleUpdate(){
+    //         const suffix=this.dataset.sizing ||'';
+    //         document.documentElement.style.setProperty(`--${this.name}`,this.value + suffix);
+    //     }
+      
+    //   inputs.forEach(input => input.addEventListener('change',handleUpdate));//change事件是在鼠标松开后才触发的事件
+    //   inputs.forEach(input => input.addEventListener('mousemove',handleUpdate));//mousemove可以在鼠标移动过程中触发，参数可以实时变化
+
+
+      (function(){
+        const inputs=document.querySelectorAll('.controls input');
+
+        function handleUpdate(){
+            //用switch来一个一个改元素属性特别麻烦，一旦要改的元素、属性特别多，就很不好维护
+            // switch(this.name){
+            //     case 'spacing':
+            //         document.querySelector('img').style.padding=this.value+'px';
+            //         break;
+            //     case 'blur':
+            //         document.querySelector('img').style.filter=`blur(${this.value}px)`;
+            //         break;
+            //     case 'base':
+            //         document.querySelector('img').style.background=this.value;
+            //         document.querySelector('.hl').style.color=this.value;
+            //         break;
+            // }
+
+                //以下这样写是错误的，中括号里不能写这种--xxx变量，可以写padding，color等
+                // if(this.name==='blur')
+                //     document.documentElement.style['--'+this.name]=`blur(${this.value}px)`;
+                // else{
+                //     document.documentElement.style['--'+this.name]=this.value + (this.name==='base' ? '' : 'px');
+                // }
+               
+
+                const suffix=this.dataset.sizing ||'';
+            document.documentElement.style.setProperty(`--${this.name}`,this.value + suffix);
+            //document.documentElement,document.querySelector(':root'),document.querySelector('html')这三个一样，改的都是文档根元素
+        }
+
+        inputs.forEach(function(input){
+            input.addEventListener('change',handleUpdate);
+            input.addEventListener('mousemove',handleUpdate);
+        })
+      })();
+
+  </script>
+
+</body>
+</html>
