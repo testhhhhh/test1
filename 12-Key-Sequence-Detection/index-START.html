@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Key Detection</title>
+  <script type="text/javascript" src="http://www.cornify.com/js/cornify.js"></script>
+</head>
+<body>
+<script>
+  const array=[];
+  const code='helloworld';
+  function check(e){
+    array.push(e.key);
+    if(array.length>code.length)
+    array.shift();
+    console.log(e.key);
+    if(array.join('').includes(code)){
+      console.log("good good good");
+    }
+    console.log(array);
+  }
+  window.addEventListener('keyup',check);
+</script>
+</body>
+</html>
