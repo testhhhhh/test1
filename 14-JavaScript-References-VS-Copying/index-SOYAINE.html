@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JS Reference VS Copy</title>
+</head>
+<body>
+
+  <script>
+    // 从 String、Number、Boolean 类型的值开始：
+
+    // 首先我们有一个数组
+    const players = ['Wes', 'Sarah', 'Ryan', 'Poppy'];
+    var copy1=[...players];
+    var copy2=players.slice();
+    var copy3=Array.from(players);
+    var copy4=[].concat(players);
+    copy1[0]='q';
+    copy2[0]='w';
+    copy3[0]='e';
+    copy4[0]='r';
+    console.log(players);
+    console.log(copy1);
+    console.log(copy2);
+    console.log(copy3);
+    console.log(copy4);
+
+    // 现在有一个 Object 对象
+    const person = {
+      name: 'Wes Bos',
+      age: 80
+    };
+
+    var copyperson1=JSON.parse(JSON.stringify(person));
+    var copyperson2=Object.assign({},person);
+    copyperson1.name='qqq';
+    copyperson2.name='www';
+    console.log(person);
+    console.log(copyperson1);
+    console.log(copyperson2);
+
+
+  </script>
+
+</body>
+</html>
