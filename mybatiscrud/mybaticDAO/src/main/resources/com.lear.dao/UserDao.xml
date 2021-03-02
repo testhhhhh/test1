@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lear.dao.UserDao">
+    <!--查询所有-->
+    <select id="findAll" resultType="com.lear.domain.User">
+        select * from user;
+    </select>
+
+    <!--保存用户-->
+    <insert id="saveUser" parameterType="com.lear.domain.User">
+        <!--配置插入操作后获取插入数据的id-->
+        <selectKey keyProperty="userid" keyColumn="userid" resultType="int" order="AFTER">
+            select last_insert_id();
+        </selectKey>
+        insert user(phone,password,identitycard,name) values (#{phone},#{password},#{identitycard},#{name});
+    </insert>
+
+    <!--更新用户-->
+    <update id="updateUser" parameterType="com.lear.domain.User">
+        update user set phone=#{phone},password=#{password},identitycard=#{identitycard},name=#{name} where userid=#{userid};
+    </update>
+
+    <!--删除用户-->
+    <delete id="deleteUser" parameterType="int">
+        delete from user where userid=#{id};
+    </delete>
+
+    <!--根据id查询用户-->
+    <select id="findById" parameterType="int" resultType="com.lear.domain.User">
+        select * from user where userid=#{userid};
+    </select>
+
+    <!--根据名称模糊查询-->
+    <select id="findByName" parameterType="String" resultType="com.lear.domain.User">
+    <!--#{}里面转换出来的sql语句是一个？，等于预处理，preparestatement，推荐这种防止sql注入-->
+        select * from user where name like #{name};
+    <!--使用的是字符串拼接，用的是statement对象的字符串拼接sql，不推荐-->
+        <!--select * from user where name like '%${value}%';-->
+    </select>
+
+    <!--获取用户的总记录条数-->
+    <select id="findTotal" resultType="int">
+        select count(userid) from user;
+    </select>
+
+</mapper>

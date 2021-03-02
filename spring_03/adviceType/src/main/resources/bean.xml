@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd">
+    <!--配置spring的ioc，吧service对象配置进来-->
+    <bean id="accountService" class="com.lear.service.impl.AccountServiceImpl"></bean>
+
+
+    <bean id="logger" class="com.lear.utils.Logger"></bean>
+
+    <!--配置aop-->
+    <aop:config>
+        <!--配置切面-->
+        <aop:aspect id="logAdvice" ref="logger">
+            <aop:pointcut id="pt1" expression="execution(* com.lear.service.impl.*.*(..))"/>
+            <!--配置通知的类型，且建立通知方法和切入点方法的关联-->
+<!--           <aop:before method="beforePrintLog" pointcut-ref="pt1"></aop:before>-->
+<!--           <aop:after-returning method="afterReturningPrintLog" pointcut-ref="pt1"></aop:after-returning>-->
+<!--            <aop:after-throwing method="afterThrowingPrintLog" pointcut-ref="pt1"></aop:after-throwing>-->
+<!--            <aop:after method="afterPrintfLog" pointcut-ref="pt1"></aop:after>-->
+
+            <aop:around method="aroundPrintfLog" pointcut-ref="pt1"></aop:around>
+        </aop:aspect>
+    </aop:config>
+</beans>

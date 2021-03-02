@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lear.dao.UserDao">
+
+    <!--了解内容，抽取重复的sql语句-->
+    <sql id="defaultUser">
+        select * from user
+    </sql>
+    <!--查询所有-->
+    <select id="findAll" resultType="User">
+    <include refid="defaultUser"></include>
+    </select>
+
+    <!--根据id查询用户-->
+    <select id="findById" parameterType="int" resultType="uSER">
+        select * from user where userid=#{userid};
+    </select>
+
+    <!--根据名称模糊查询-->
+    <select id="findByName" parameterType="String" resultType="User">
+    <!--#{}里面转换出来的sql语句是一个？，等于预处理，preparestatement，推荐这种防止sql注入-->
+        select * from user where name like #{name};
+    <!--使用的是字符串拼接，用的是statement对象的字符串拼接sql，不推荐-->
+        <!--select * from user where name like '%${value}%';-->
+    </select>
+
+    <!--根据queryvo的条件查询用户-->
+    <select id="findUserByVo" parameterType="com.lear.domain.QueryVo" resultType="com.lear.domain.User">
+        select * from user where name like #{user.name};
+    </select>
+
+    <!--根据条件查询-->
+   <!-- <select id="findUserByCondition" resultType="User" parameterType="user">
+        select * from user where 1=1
+        <if test="phone != null">
+            and phone=#{phone}
+        </if>
+        <if test="name != null">
+            and name=#{name}
+        </if>
+    </select>-->
+
+    <select id="findUserByCondition" resultType="User" parameterType="user">
+        select * from user
+        <where>
+        <if test="phone != null">
+        and phone=#{phone}
+        </if>
+        <if test="name != null">
+            and name=#{name}
+        </if>
+        </where>
+    </select>
+
+    <!--根据QueryVo中的id集合，实现查询用户列表-->
+    <select id="findUserInIds" resultType="User" parameterType="queryVo">
+        <include refid="defaultUser"></include>
+        <where>
+            <if test="ids != null and ids.size()>0">
+                <foreach collection="ids" open="and userid in (" close=")" item="uid" separator=",">
+                    #{uid}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+</mapper>

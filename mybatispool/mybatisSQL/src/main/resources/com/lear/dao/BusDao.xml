@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lear.dao.BusDao">
+
+    <!--配置 查询结果的列名和实体类的属性名的对应关系-->
+    <!--开发效率高，但执行效率低-->
+    <resultMap id="busMap" type="com.lear.domain.Bus">
+        <!--主键字段的对应-->
+        <id property="busId" column="busid"></id>
+        <!--非主键字段的对应-->
+        <result property="type" column="bustype"></result>
+        <result property="number" column="busnumber"></result>
+    </resultMap>
+
+    <!--查询所有-->
+    <select id="findAll" resultType="com.lear.domain.Bus">
+        <!--起别名方式执行效率高，开发效率低-->
+        select busid as busId,bustype as type,busnumber as number from bus;
+    </select>
+
+    <!--保存汽车-->
+    <insert id="saveBus" parameterType="com.lear.domain.Bus">
+        <!--配置插入操作后获取插入数据的id-->
+        <selectKey keyProperty="busId" keyColumn="busid" resultType="int" order="AFTER">
+            select last_insert_id();
+        </selectKey>
+        insert bus(busid,bustype,busnumber) values (#{busId},#{type},#{number});
+    </insert>
+
+    <!--更新-->
+    <update id="updateBus" parameterType="com.lear.domain.Bus">
+        update bus set bustype=#{type},busnumber=#{number} where busid=#{busId};
+    </update>
+
+    <!--删除-->
+    <delete id="deleteBus" parameterType="int">
+        delete from bus where busid=#{busId};
+    </delete>
+
+    <!--根据id查询-->
+    <select id="findById" parameterType="int" resultMap="busMap">
+        select * from bus where busid=#{busId};
+    </select>
+
+    <!--根据名称模糊查询-->
+    <select id="findByType" parameterType="String" resultMap="busMap">
+        select * from bus where bustype like #{type};
+    </select>
+</mapper>
